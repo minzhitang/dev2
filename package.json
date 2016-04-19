@@ -1,0 +1,31 @@
+{
+  "name": "sina-koa-example",
+  "version": "0.0.1",
+  "description": "sina koa",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_PATH=./ node index.js"
+  },
+  "author": "wangkun5",
+  "license": "ISC",
+  "dependencies": {
+    "@sina/koa-common": "^0.1.4",
+    "@sina/koa-config": "^0.2.11",
+    "@sina/koa-jsonp": "0.0.5",
+    "@sina/koa-mysql": "^0.1.21",
+    "@sina/koa-xhttp": "0.0.3",
+    "co-body": "^4.0.0",
+    "co-memcached": "^1.0.1",
+    "co-redis": "^2.0.0",
+    "koa": "^1.1.2",
+    "koa-favicon": "^1.2.0",
+    "koa-router": "^5.3.0",
+    "koa-session": "^3.3.1",
+    "koa-static": "^1.5.2",
+    "koa-swig": "^2.2.0",
+    "koa-useragent": "^0.1.2",
+    "redis": "^2.4.2",
+    "socket.io": "^1.4.5",
+    "swig": "^1.4.2"
+  }
+}

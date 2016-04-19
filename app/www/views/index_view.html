@@ -1,0 +1,225 @@
+x{% extends 'layout.html' %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <title>新浪众测_数码产品免费试用_评测报告_新浪科技</title>
+    <meta name="Keywords" content="试用,免费试用,众测,消费众测,网友体验,测评,评测,报告" />
+    <meta name="description" content="新浪众测是一个电子产品体验平台，为广大网友免费提供最新最优质的电子产品试用，通过体验者分享最真实的使用感受，实现对产品的众包测试，并为潜在消费者提供更客观的购买参考。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=1180,maximum-scale=2.0" name="viewport"/>
+    <link rel="stylesheet" href="./css/zc_index.css?v={{ v }}">
+</head>
+{% endblock %}
+
+{% block content %}
+    {% include 'public/header.html' %}
+    {{ app }}
+    <div class="zcFace" data-sudaclick="index_focus_activity">
+        <div class="zcFaceWrap clearfix">
+            <a href="{{ configArr.focusActivity.url }}" target="_blank" class="faceImg">
+                <img src="{{ configArr.focusActivity.product_intro.big }}" alt="{{ configArr.focusActivity.title }}免费试用,评测">
+            </a>
+            <div class="faceRight">
+                <span class="zcDate"><img src="{{ configArr.focusActivity.issue_img }}"></span>
+                <div class="faceMask"></div>
+                <h1><a href="{{ configArr.focusActivity.url }}" target="_blank" title="{{ configArr.focusActivity.title }}">{{ configArr.focusActivity.title }}</a></h1>
+                <div class="faceDetail">
+                    <p>免费试用<span>{{ configArr.focusActivity.num }}</span>{{ configArr.focusActivity.unit }}</p>
+                    {% if configArr.focusActivity.price %}
+                    <p>官方报价：<em>￥{{ configArr.focusActivity.price }}{% if configArr.focusActivity.id==21 %}起{% endif %}</em></p>
+                    {% else %}
+                    <p>官方报价：<em>待定</em></p>
+                    {% endif %}
+                    <p>{{ configArr.focusActivity.apply_users }}人申请</p>
+                </div>
+                <a class="faceBtn" href="{{ configArr.focusActivity.url }}" target="_blank">免费申请</a>
+                <p class="faceTime" id="faceTime" timenow="{{ configArr.focusActivity.server_time }}" apply_stime="{{ configArr.focusActivity.apply_stime }}" apply_etime="{{ configArr.focusActivity.apply_etime }}" publish_user_time="{{ configArr.focusActivity.publish_user_time }}"></p>
+                <p class="faceTime" id="faceTime" timenow="" apply_stime="" apply_etime="" publish_user_time=""></p>
+            </div>
+        </div>
+    </div>
+    <div class="zcMain">
+        <div class="zcMainWrap" id="zcMainWrap">
+            <div class="zcBox" data-sudaclick="index_hot_activity">
+                <div class="zcBoxTitle clearfix">
+                    <h2 class="hotTry">热门试用</h2>
+                    <a href="#" class="more">查看更多<span></span></a>
+                </div>
+                <div class="arrArrow" id="arrArrow1" style="display:none;">
+                    <a href="javascript:;" id="zcPrev1" class="zcPrev"></a>
+                    <a href="javascript:;" id="zcNext1" class="zcNext"></a>
+                </div>
+                <div class="zcSlider" id="zcSlider1">
+                    {% for hot_item in configArr.hotActivity %}
+                    <div class="zcItem clearfix">
+                        {% for item in hot_item %}
+                        <div class="zcCard">
+                            <a href="{{ item.url }}" target="_blank" class="zcImg">
+                                <img src="{{ item.product_intro.small }}" alt="{{ item.title }}免费试用,评测">
+                                {% if item.state<=1 %}
+                                <span class="unstart">即将开始</span>
+                                {% elseif item.state==2 %}
+                                <span>申请中</span>
+                                {% elseif item.state==7 %}
+                                <span class="ending">已结束</span>
+                                {% else %}
+                                <span class="trying">试用中</span>
+                                {% endif %}
+                            </a>
+                            <div class="detail">
+                                <p class="title">
+                                    <a href="{{ item.url }}" target="_blank" title="{{ item.short_title }}">{{ item.short_title }}</a>
+                                </p>
+                                <p class="num clearfix">
+                                    {% if item.price %}
+                                    <span class="price">价格：<em>￥{{ item.price }}</em></span>
+                                    {% else %}
+                                    <span class="price">价格：<em>待定</em></span>
+                                    {% endif %}
+                                    <span class="fen">数量：{{ item.num }}{{ item.unit }}</span>
+                                </p>
+                            </div>
+                            <div class="people">
+                                已有<span>{{ item.apply_users }}</span>人申请
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="zcBox" data-sudaclick="index_hot_report">
+                <div class="zcBoxTitle clearfix">
+                    <h2 class="goodReport">优秀报告</h2>
+                    <a href="#" class="more">查看更多<span></span></a>
+                </div>
+                <div class="arrArrow" id="arrArrow2" style="display:none;">
+                    <a href="javascript:;" id="zcPrev2" class="zcPrev"></a>
+                    <a href="javascript:;" id="zcNext2" class="zcNext"></a>
+                </div>
+                <div class="zcSlider" id="zcSlider2">
+                    {% for excel_item in configArr.excellentReport %}
+                    <div class="zcItem">
+                        {% for item in excel_item %}
+                        <div class="zcCard">
+                            <a href="{{ item.url }}" target="_blank" class="zcImg">
+                                <img src="{{ item.cover }}" alt="{{ item.title }}">
+                            </a>
+                            <div class="detail">
+                                <p class="rtitle">
+                                    <a href="{{ item.url }}" target="_blank" title="{{ item.short_title }}">{{ item.short_title }}</a>
+                                </p>
+                            </div>
+                            <div class="report clearfix">
+                                {% if item.weibo.profile_url=='#' %}
+                                <a class="rname rname2 clearfix" href="javascript:;" title="{{ item.weibo.screen_name }}">
+                                {% else %}
+                                <a class="rname clearfix" href="{{ item.weibo.profile_url }}" title="{{ item.weibo.screen_name }}" target="_blank">
+                                {% endif %}
+                                    <img src="{{ item.weibo.profile_image_url }}" alt="{{ item.weibo.screen_name }}">
+                                    <span>{{ item.weibo.screen_name }}</span>
+                                </a>
+                                <span class="rtime">{{ item.create_time }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'public/footer.html' %}
+    <div id="actId" dataId="1" style="display:none;"></div>
+    <script type="text/javascript">
+    //js异步加载管理
+    (function(){var w=this,d=document,version='1.0.7',data={},length=0,cbkLen=0;if(w.jsLoader){if(w.jsLoader.version>=version){return};data=w.jsLoader.getData();length=data.length};var addEvent=function(obj,eventType,func){if(obj.attachEvent){obj.attachEvent("on"+eventType,func)}else{obj.addEventListener(eventType,func,false)}};var domReady=false,ondomReady=function(){domReady=true};if(d.addEventListener){var webkit=navigator.userAgent.match(/AppleWebKit\/(\d+)/);if(webkit&&webkit[1]<525){doReadyStateCheck()}else{d.addEventListener("DOMContentLoaded",function(){d.removeEventListener("DOMContentLoaded",arguments.callee,false);ondomReady()},false)}};function doScrollCheck(){if(domReady){return};try{d.documentElement.doScroll("left")}catch(e){return};ondomReady()};function doReadyStateCheck(){if(domReady){return};if(d.readyState=='loaded'||d.readyState=='complete'){ondomReady();return}else{setTimeout(doReadyStateCheck,1);return}};function createPosNode(){if(jsLoader.caller){return};cbkLen++;if(!domReady&&d.attachEvent){doScrollCheck()};if(!domReady){try{d.write('<div style="display:none" id="_jl_pos_'+cbkLen+'"></div>');s=d.getElementById('_jl_pos_'+cbkLen)}catch(e){var s=d.createElement('div');s.id='_jl_pos_'+cbkLen;s.style.display='none';d.body.insertBefore(s,d.body.firstChild)}}else{var s=d.createElement('div');s.id='_jl_pos_'+cbkLen;s.style.display='none';d.body.appendChild(s)};return s};function getScript(url,dispose,charset){var scriptNode=d.createElement("script");scriptNode.type="text/javascript";if(charset){scriptNode.charset=charset};scriptNode.onreadystatechange=scriptNode.onload=function(){if(!this.readyState||this.readyState=="loaded"||this.readyState=="complete"){if(dispose){dispose()};scriptNode.onreadystatechange=scriptNode.onload=null;scriptNode.parentNode.removeChild(scriptNode)}};scriptNode.src=url;var h=d.getElementsByTagName("head")[0];h.insertBefore(scriptNode,h.firstChild)};var write=d.write,posNode;function cWrite(str){if(posNode.childNodes.length>0){return};if(posNode.innerHTML!=''){while(posNode.childNodes.length){posNode.parentNode.insertBefore(posNode.childNodes[0],posNode)}};posNode.innerHTML=str;while(posNode.childNodes.length){posNode.parentNode.insertBefore(posNode.childNodes[0],posNode)}};var JsObj=function(name,url){this.name=name;this.url=url;this.callback=[]};JsObj.prototype={status:'init',onload:function(){this.status='ok';var errors=[];for(var i=0;i<this.callback.length;i++){if(typeof this.callback[i]=='function'){try{if(this.callback[i].posNode){posNode=this.callback[i].posNode;d.write=cWrite};this.callback[i]();if(this.callback[i].posNode){d.write=write;this.callback[i].posNode.parentNode.removeChild(this.callback[i].posNode)}}catch(e){errors.push(e)}}};this.callback=[];if(errors.length!=0){throw errors[0]}}};w.jsLoader=function(cfg){var url=cfg.url||"";var name=cfg.name||"";var callback=cfg.callback||"";var charset=cfg.charset||"";if(name){if(!data[name]){if(!url){data[name]=new JsObj(name);data[name].status='waiting'}else{data[name]=new JsObj(name,url)};length++}else if(data[name].status=='waiting'&&url){data[name].status='init'};if(cfg.status){data[name].status=cfg.status};if(data[name].status=='loading'||data[name].status=='waiting'){if(typeof callback=='function'){callback.posNode=createPosNode();data[name].callback.push(callback)};return}else if(data[name].status=='ok'){if(typeof callback=='function'){callback()};return}}else{if(!url){return};for(var item in data){if(data[item].url==url){name=item;break}};if(!name){name='noname'+length;data[name]=new JsObj(name,url);length++};if(data[name].status=='loading'){if(typeof callback=='function'){callback.posNode=createPosNode();data[name].callback.push(callback)};return}else if(data[name].status=='ok'){if(typeof callback=='function'){callback()};return}};if(typeof callback=='function'){callback.posNode=createPosNode();data[name].callback.push(callback)};getScript(url,function(){data[name].onload()},charset);data[name].status='loading'};w.jsLoader.version=version;w.jsLoader.getData=function(){return data}})();
+    </script>
+    <script type="text/javascript" src=" http://i.sso.sina.com.cn/js/outlogin_layer.js " charset="utf-8">
+    </script>
+    <script type="text/javascript" src="./js/widget/slider.js?v={{ v }}"></script>
+    <script type="text/javascript">
+    jsLoader({
+        name : 'zcIndex',
+        url : './js/pl/zc_index.js?v={{ v }}',
+        callback: function() {
+                //console.log();
+                zcIndex._isScreen();
+                zcIndex._timeCount2();
+                /*滚动图1*/
+                var zcSlider1 = _.E("zcSlider1"),
+                    arrArrow1 = _.E("arrArrow1"),
+                    zcCard1 = zcIndex._class("zcCard",zcSlider1,'div'),
+                    zcCardLen1 = zcCard1.length;
+                if(zcCardLen1>3){
+                    arrArrow1.style.display = "block";
+                    var slide1 = new Slider({
+                        wrapId : 'zcSlider1',
+                        itemClass : 'zcItem',
+                        sameSize : true,
+                        startOn : 0,
+                        scrollBy : 1,
+                        speed : 3,
+                        isVertical : false,
+                        isLoop : true,
+                        autoInterval : 5,
+                        absoluteAni : true,
+                        autoPlay : false,
+                        onReady : function () {
+                            var that = this;
+                            var btn_prev = document.getElementById('zcPrev1');
+                            var btn_next = document.getElementById('zcNext1');
+                            btn_prev.onclick = function(){that.prev();};
+                            btn_next.onclick = function(){that.next();};
+                        }
+                    });
+                }
+                /*滚动图2*/
+                var zcSlider2 = _.E("zcSlider2"),
+                    arrArrow2 = _.E("arrArrow2"),
+                    zcCard2 = zcIndex._class("zcCard",zcSlider2,'div'),
+                    zcCardLen2 = zcCard2.length;
+                if(zcCardLen2>3){
+                    arrArrow2.style.display = "block";
+                    var slide2 = new Slider({
+                        wrapId : 'zcSlider2',
+                        itemClass : 'zcItem',
+                        sameSize : true,
+                        startOn : 0,
+                            // startOnPos : 300,
+                            scrollBy : 1,
+                            // scrollDis : 400,
+                            speed : 3,
+                            isVertical : false,
+                            isLoop : true,
+                            autoInterval : 5,
+                            absoluteAni : true,
+                            autoPlay : false,
+                            onReady : function () {
+                                var that = this;
+                                var btn_prev = document.getElementById('zcPrev2');
+                                var btn_next = document.getElementById('zcNext2');
+                                btn_prev.onclick = function(){that.prev();};
+                                btn_next.onclick = function(){that.next();};
+                            }
+                        });
+                }
+            }
+        })
+    </script>
+    <script type="text/javascript" src="http://www.sinaimg.cn/unipro/pub/suda_m_v629.js"></script>
+    <script type="text/javascript">suds_init(3551,100.0000,1015,2);</script>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+{% endblock %}

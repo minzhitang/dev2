@@ -1,0 +1,151 @@
+.l_menu_tt_4 {
+  background: url("zch.png") 40px 28px no-repeat; }
+
+.l_menu_on .l_menu_tt_4 {
+  background: url("zc.png") 40px 28px no-repeat;
+  _background-image: url("zc.png"); }
+
+.zc_main {
+  margin: 10px 20px 0 40px;
+  padding-bottom: 50px; }
+  .zc_main .zc_tab {
+    height: 80px;
+    line-height: 80px;
+    border-bottom: 2px solid #dde3eb; }
+    .zc_main .zc_tab a {
+      display: inline-block;
+      font-size: 20px;
+      padding: 0 22px; }
+    .zc_main .zc_tab a:hover {
+      color: #333; }
+    .zc_main .zc_tab span {
+      display: inline-block;
+      margin: 0 6px;
+      font-size: 22px;
+      color: #dbdbdb; }
+    .zc_main .zc_tab .selected {
+      color: #f84c4b;
+      border-bottom: 2px solid #f84c4b; }
+    .zc_main .zc_tab .selected:hover {
+      color: #f84c4b; }
+  .zc_main .zc_con {
+    margin-top: 20px; }
+    .zc_main .zc_con .con_tab a {
+      display: inline-block;
+      width: 134px;
+      text-align: center;
+      height: 53px;
+      line-height: 46px;
+      font-size: 18px;
+      margin-right: 20px; }
+    .zc_main .zc_con .con_tab a:hover {
+      color: #333; }
+    .zc_main .zc_con .con_tab .selected {
+      background: url("arr.png") no-repeat;
+      color: #fff; }
+    .zc_main .zc_con .con_tab .selected:hover {
+      color: #fff; }
+    .zc_main .zc_con li {
+      border-bottom: 1px solid #e3e3e3;
+      position: relative; }
+    .zc_main .zc_con li, .zc_main .zc_con li p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+    .zc_main .zc_con .noli {
+      border-bottom: none;
+      font-size: 16px; }
+      .zc_main .zc_con .noli .more {
+        color: #f84c4b; }
+  .zc_main .zc_activity li {
+    width: 620px;
+    height: 80px;
+    line-height: 80px; }
+    .zc_main .zc_activity li p {
+      width: 500px; }
+    .zc_main .zc_activity li a {
+      font-size: 16px; }
+    .zc_main .zc_activity li .btn {
+      width: 120px;
+      height: 40px;
+      display: block;
+      line-height: 40px;
+      text-align: center;
+      position: absolute;
+      right: 0;
+      top: 20px; }
+    .zc_main .zc_activity li .submit {
+      background: #f84c4b;
+      color: #fff; }
+    .zc_main .zc_activity li .end {
+      background: #e2e2e2;
+      color: #9a9a9a; }
+  .zc_main .zc_report li {
+    height: 60px;
+    padding: 20px 0; }
+    .zc_main .zc_report li p {
+      line-height: 30px;
+      font-size: 16px; }
+    .zc_main .zc_report li .p {
+      font-size: 14px;
+      color: #666; }
+      .zc_main .zc_report li .p a {
+        color: #666;
+        background: url("comment.png") 28px 6px no-repeat;
+        padding-left: 54px;
+        display: inline-block; }
+      .zc_main .zc_report li .p a:hover {
+        color: #f84c4b; }
+    .zc_main .zc_report li .btn {
+      width: 60px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      position: absolute;
+      right: 0;
+      top: 20px; }
+    .zc_main .zc_report li .del {
+      border: 1px solid #f84c4b;
+      color: #f84c4b; }
+    .zc_main .zc_report li .edit {
+      background: #f84c4b;
+      color: #fff;
+      right: 70px; }
+  .zc_main .zc_report .willcheck p {
+    width: 560px; }
+  .zc_main .zc_report .uncheck p {
+    width: 490px; }
+
+.zcPageDiv {
+  width: 620px;
+  text-align: center;
+  margin: 50px 0; }
+  .zcPageDiv a {
+    display: inline-block;
+    line-height: 30px;
+    text-align: center;
+    background: #F2F2F0;
+    color: #656565; }
+  .zcPageDiv .btn {
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 15px; }
+  .zcPageDiv .page_num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; }
+  .zcPageDiv .page_num_select, .zcPageDiv a:hover {
+    color: #fff;
+    background: #f84c4b; }
+  .zcPageDiv .unclick {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    color: #ccc; }
+  .zcPageDiv .unclick:hover {
+    cursor: default;
+    background: #fff;
+    color: #ccc; }
+
+/*# sourceMappingURL=myZc.css.map */
