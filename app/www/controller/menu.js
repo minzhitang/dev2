@@ -1,16 +1,31 @@
 // 自定义菜单暂存处，在http://mp.weixin.qq.com/debug这里可以用
 
 {
-  "button": [{
-    "type": "click",
-    "name": "创建书单",
-    "key": "create_booklist"
-  }, 
-  {
-    "type": "click",
-    "name": "我的书单",
-    "key": "my_booklist"
-  }]
+  "button": [
+    {
+      "type": "click",
+      "name": "创建书单",
+      "key": "create_booklist"
+    }, 
+    {
+      "type": "click",
+      "name": "🌸发现",
+      "key": "recommend_booklist"
+    },
+    {
+      "name" : "我的",
+      "sub_button" : [{
+        "type": "click",
+        "name": "我的书单",
+        "key": "my_booklist"
+      },
+      {
+        "type": "click",
+        "name": "我的反馈",
+        "key": "feedback"
+      }]
+    }
+  ]
 }
 
 

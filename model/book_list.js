@@ -20,7 +20,7 @@ exports.insertBookList = function * ( obj ) {
 }
 
 /**
- * 获取某用户所有书单（暂时用不上）
+ * 获取某用户所有书单
  * @param  {[type]}   open_id       [description]
  * @yield  {[type]}   [description]
  *
@@ -32,6 +32,22 @@ exports.getListByOpenId = function * ( open_id ) {
     let lists = yield book_list_db.select('id, open_id, title, content, created_time').where({
         'open_id' : open_id,
         'status'  : 1
+    }).orderBy({'created_time':'desc'}).all();
+    return lists;
+}
+
+/**
+ * 获取推荐书单
+ * @yield  {[type]}   [description]
+ *
+ * @author minzhi <tang626@gmail.com>
+ * @date   2016-04-13
+ */
+exports.getRecommendList = function * () {
+    "use strict"
+    let lists = yield book_list_db.select('id, open_id, title, content, created_time').where({
+        'recommend' : 1,
+        'status'    : 1
     }).orderBy({'created_time':'desc'}).all();
     return lists;
 }

@@ -1,34 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<!--
+    Photon by HTML5 UP
+    html5up.net | @n33co
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <title>绘本书单：{{title}}</title>
-        <link rel="stylesheet" href="/css/weui.css"/>
+        <title>{{title}}</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="/assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+        <!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
     </head>
     <body>
-        <h1>{{title}}</h1>
-        {% for b in book_list %}
-        <!-- <li{% if loop.first %} class="first"{% endif %}>{{ author }}</li> -->
-        <article class="weui_article">
-            <h2>{{b.book_info.book_name}}</h2>
-            <img src='{{b.book_info.picture}}' />
-            <p>{{b.comment}}</p>
 
-        </article>
-        {% endfor %}
-            <!-- <img src='{{book.picture}}' /> -->
-            <!-- <h1>{{book.book_name}}</h1> -->
+        <!-- Header -->
+            <section id="header">
+                <div class="inner">
+                    <span class="icon major fa-cloud"></span>
+                    <h2>{{title}}</h2>
+                    <p>绘本在翻的过程中给人很大的期待。翻过去会是怎样的呢？这种趣味很重要。单幅画非常好还不够，作为绘本最重要的是翻到最后一页的感觉。</p><p> --宫西达也</p>
+                    <ul class="actions">
+                        <li><a href="#one" class="button scrolly">
+                            浏览书单
+                            <!--
+                            书单制作：翻页的艺术（微信号）--></a></li>
+                    </ul>
+                </div>
+            </section>
 
-            <!-- <h3>{{book.author}} 著，{{book.drawer}} 绘，{{book.translator}} 译</h3> -->
+        <!-- One -->
+        
+            <section id="one" class="main style1">
+                
+                <div class="container">
+                    {% for b in book_list %}
+                    <div class="row 150%">
+                        <div class="6u 12u$(medium)">
+                            <header class="major">
+                                <h2>{{b.book_info.book_name}}</h2>
+                            </header>
+                            <p>{{b.comment}}</p>
+                        </div>
+                        <div class="6u$ 12u$(medium) important(medium)">
+                            <span class="image fit"><img src="{{b.book_info.picture}}" alt="" /></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
-            <!-- <h3>{{book.press}} isbn: {{book.isbn}}</h3> -->
+            </section>
 
-            <!-- <h3>内容简介</h3> -->
-            <!-- <p>{{book.content_introduction}}</p> -->
-            <!-- <h3>作者简介</h3>  -->
-            <!-- <p>{{book.author_introduction}}</p> -->
+        <!-- Footer -->
+            <section id="footer">
+                <ul class="copyright">
+                    <li>&copy; fanyedeyishu</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </section>
 
-            <!-- <a href="{{book.jd_book_url}}" class="weui_btn weui_btn_plain_default">京东购买</a> -->
+        <!-- Scripts -->
+            <script src="/assets/js/jquery.min.js"></script>
+            <script src="/assets/js/jquery.scrolly.min.js"></script>
+            <script src="/assets/js/skel.min.js"></script>
+            <script src="/assets/js/util.js"></script>
+            <!--[if lte IE 8]><script src="/assets/js/ie/respond.min.js"></script><![endif]-->
+            <script src="/assets/js/main.js"></script>
+
     </body>
 </html>

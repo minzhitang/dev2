@@ -48,7 +48,7 @@ exports.process = function * ( dialog, content, msgtype ) {
             'title'   : dialog.structure.title,
             'content' : JSON.stringify(dialog.structure.content)
         });
-        result.echo.Content = result.echo.Content + 'http://test.tingxiaozhu.cn/booklist/' + s;
+        result.echo.Content = result.echo.Content + '您创建的书单是：http://test.tingxiaozhu.cn/booklist/' + s;
         // console.log('存下评论，本次评论结束');
     }
     // console.log(dialog);
@@ -104,30 +104,33 @@ exports.init_structure = function * () {
     };
 }
 
+// 0
 var askBookListName = function * ( stru, content, msgtype ) {
     "use strict"
     return {
         'echo' : {
             'MsgType' : 'text',
-            'Content' : '请输入书单标题，举个栗子：“汀小主的屎尿屁系列”',
+            'Content' : '请输入书单标题，举个栗子：“汀小主的重口味系列”',
         },
         'step' : 1
     };
 }
 
+// 1
 var confirmListName = function * ( stru, content, msgtype ) {
     "use strict"
     let name = common.str_replace(['!','！','。'], '', content);
     return {
         'echo' : {
             'MsgType' : 'text',
-            'Content' : '好嘞，书单名是：' + name + '， 接下来请输入书名，打字语音都可以'
+            'Content' : '好嘞，书单名是：<' + name + '>。接下来请输入书名，打字语音都可以'
         },
         'step' : 3,
         'title' : name
     };
 }
 
+// 2
 var askBookName = function * ( stru, content, msgtype ) {
     "use strict"
     return {
@@ -139,17 +142,13 @@ var askBookName = function * ( stru, content, msgtype ) {
     };
 }
 
+// 3
 var checkBookName = function * ( stru, content, msgtype ) {
     "use strict"
-    let searchName = common.str_replace(['!','！','。'], '', content);
+    content = common.str_replace(['!','！','。'], '', content);
     
     // console.log(book_list);
-    let pre_content = '';
-    if ( 'voice' == msgtype ) {
-        pre_content = '您说的是：' + content + '？';
-    }
-    let result = {};
-    console.log(content);
+    // console.log(content);
     if ( content == '完成' ) {
         return {
             'echo' : {
@@ -160,7 +159,12 @@ var checkBookName = function * ( stru, content, msgtype ) {
             // 'comment' : content
         };    
     }
-    let book_list = yield book.searchName(searchName);
+    let pre_content = '';
+    if ( 'voice' == msgtype ) {
+        pre_content = '您说的是：' + content + '？';
+    }
+    let result = {};
+    let book_list = yield book.searchName(content);
     if ( !book_list || (0 == book_list.length) ) {
         result = {
             'echo' : {
@@ -191,13 +195,13 @@ var checkBookName = function * ( stru, content, msgtype ) {
                             'PicUrl': book_list[0].picture
                         },
                         {
-                            'Title' : '确定是这本请回答“是”（文字或语音皆可）',
+                            'Title' : '确定是这本请回答“是”或“1”（文字或语音皆可）',
                             'PicUrl': ''
                         }
                     ]
                 }
             },
-            'step' : 5,
+            'step' : 4,
             'tmp_book_list' : [book_list[0].id]
         };
     }
@@ -236,9 +240,11 @@ var checkBookName = function * ( stru, content, msgtype ) {
     return result;
 }
 
+// 4
 var confirmBook = function * ( stru, content, msgtype ) {
     "use strict"
-    if ( (stru.tmp_book_list.length == 1) && ( common.in_array(content, ['是', '1', 'yes', 'Y', 'y']))) {
+    content = common.str_replace(['!','！','。'], '', content);
+    if ( (stru.tmp_book_list.length == 1) && ( common.in_array(content, ['是', '1', '一', 'yes', 'Y', 'y']))) {
         // console.log(111111111111111);
         return {
             'echo' : {
@@ -267,54 +273,35 @@ var confirmBook = function * ( stru, content, msgtype ) {
                     'MsgType' : 'text',
                     'Content' : '不好意思，小翻太蠢了，没看懂您的输入，请再指导一下~给编号数字就好'
                 },
-                'step' : 2
+                'step' : 4
             };
         }
-    }
-    else {
-        return {
-                'echo' : {
-                    'MsgType' : 'text',
-                    'Content' : '不好意思，小翻太蠢了，没看懂您的输入，请再指导一下~给编号数字就好'
-                },
-                'step' : 2
-        };
     }
 }
 
 
-// 评论
+// 5 评论
 var commentBook = function * ( stru, content, msgtype ) {
     "use strict"
-    if ( content == '完成' ) {
-        return {
-            'echo' : {
-                'MsgType' : 'text',
-                'Content' : '谢谢！戳这里看你创建的书单：'
-            },
-            'step' : 6,
-            // 'comment' : content
-        };    
+    let cont = stru.content;
+    cont.push({
+        'book_id' : stru.book_id,
+        'comment' : content,
+    });
+    let pre_content = '';
+    if ( 'voice' == msgtype ) {
+        pre_content = '您说的是：“' + content + '”。';
     }
-    else {
-        let cont = stru.content;
-        cont.push({
-            'book_id' : stru.book_id,
-            'comment' : content,
-        });
-
-        return {
-            'echo' : {
-                'MsgType' : 'text',
-                'Content' : '书单创建完毕请回复“完成”，下一本书请回复其他'
-            },
-            'step' : 3,
-            'content' : cont,
-            // 清零
-            'book_id' : 0,
-            'tmp_book_list' : [],
-            // 'comment' : stru.comment + "\n" + content
-        };
-    }
-    // console.log('Get the comment: ' + content + '.');   
+    return {
+        'echo' : {
+            'MsgType' : 'text',
+            'Content' : pre_content + '书单创建完毕请回复“完成”，下一本书请回复书名'
+        },
+        'step' : 3,
+        'content' : cont,
+        // 清零
+        'book_id' : 0,
+        'tmp_book_list' : [],
+        // 'comment' : stru.comment + "\n" + content
+    };
 }

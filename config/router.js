@@ -18,18 +18,18 @@ var adminRouter = new Router();
  * @type {[type]}
  */
 var wwwIndex = require('app/www/controller/index');
-var wwwActivity = require('app/www/controller/activity');
+var wwwDouban = require('app/www/controller/douban');
 var wwwWeb = require('app/www/controller/web');
 var wwwToken = require('app/www/controller/token');
 
 var adminIndex = require('app/admin/controller/index');
-var adminActivity = require('app/admin/controller/activity');
+// var adminActivity = require('app/admin/controller/activity');
 
 /**
  * 前台路由
  */
 wwwRouter.post('/index', wwwIndex.rec);
-// wwwRouter.get('/activity/view/:id', wwwActivity.view);
+wwwRouter.get('/douban', wwwDouban.updateDoubanTitle);
 wwwRouter.get('/booklist/:list_id', wwwWeb.booklist);
 wwwRouter.get('/token/flush', wwwToken.flush);
 // wwwRouter.post('/activity/view/:id', wwwActivity.view);

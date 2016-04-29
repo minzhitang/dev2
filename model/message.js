@@ -17,6 +17,14 @@ var create_process = require('./create_process');
 // 我的书单
 var my_booklist = require('./my_booklist');
 
+// 我的反馈
+var feedback_process = require('./feedback_process');
+
+// 发现
+var recommend_booklist = require('./recommend_booklist');
+
+
+
 
 /**
  * 
@@ -47,10 +55,13 @@ exports.process = function * (obj) {
     let stru = {};
 
 
-    if ( 'text' == obj.MsgType || 'voice' == obj.MsgType ) {
+    if ( 'text' == obj.MsgType || 'voice' == obj.MsgType || 'image' == obj.MsgType) {
         // 语音消息没有content字段，开启识别后有recognition字段，同化为content处理
         if ( 'voice' == obj.MsgType ) {
             obj.Content = obj.Recognition;
+        }
+        else if ('image' == obj.MsgType) {
+            obj.Content = obj.PicUrl;
         }
         let dia = yield dialog_model.getDialogRecent( obj.FromUserName );
         if ( dia ) {
@@ -70,6 +81,9 @@ exports.process = function * (obj) {
                 case 'create_booklist':
                     echo = yield create_process.process( dia, obj.Content, obj.MsgType );
                     break;
+                case 'feedback':
+                    echo = yield feedback_process.process( dia, obj.Content, obj.MsgType );
+                    break;
             }
             for ( let attr in echo ) {
                 rec[attr] = echo[attr];
@@ -83,12 +97,11 @@ exports.process = function * (obj) {
     // 点菜单，开启会话
     else if ( 'event' == obj.MsgType ) {
         if ( 'CLICK' == obj.Event ) {
-            // console.log('ccccccccccccc');
             // let dia = yield dialog_model.getDialogByType( obj.FromUserName, obj.EventKey );
             // let stru = dia.structure;
             let dia = {};
             if ( true ) {
-                console.log('------------');
+                // console.log('------------');
                 // 新建一个会话
                 // @todo: 还可以再优雅一点吧
                 switch ( obj.EventKey ) {
@@ -109,6 +122,12 @@ exports.process = function * (obj) {
                         break;
                     case 'my_booklist':
                         stru = yield my_booklist.init_structure();
+                        break;
+                    case 'recommend_booklist':
+                        stru = yield recommend_booklist.init_structure();
+                        break;
+                    case 'feedback':
+                        stru = yield feedback_process.init_structure();
                         break;
                 }
                 dia = yield dialog_model.insertDialog({
@@ -134,8 +153,14 @@ exports.process = function * (obj) {
                 case 'my_booklist':
                     echo = yield my_booklist.process( dia, obj.Content );
                     break;
+                case 'recommend_booklist':
+                    echo = yield recommend_booklist.process( dia, obj.Content );
+                    break;
                 case 'create_booklist':
                     echo = yield create_process.process( dia, obj.Content );
+                    break;
+                case 'feedback':
+                    echo = yield feedback_process.process( dia, obj.Content );
                     break;
             }
             for ( let attr in echo ) {

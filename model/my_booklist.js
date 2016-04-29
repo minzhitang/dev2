@@ -17,6 +17,7 @@ exports.process = function * ( dialog, content, msgtype ) {
     "use strict"
     // console.log(dialog);
     let stru = dialog.structure;
+    stru.open_id = dialog.open_id;
     // console.log(stru);
     let step = stru.step;
     // console.log('++++++++++');
@@ -58,6 +59,7 @@ exports.init_structure = function * () {
     "use strict"
     return {
         'step'    : 0,
+        'open_id' : '',
         'list'    : [
             {
                 'comment' : '我的书单',
@@ -67,10 +69,10 @@ exports.init_structure = function * () {
     };
 }
 
-// @TODO:图片和open_id写死了
 var showMyBookList = function * ( stru, content, msgtype ) {
     "use strict"
-    let book_lists = yield book_list.getListByOpenId('o-PJHuBfBdd0ZFHbEV5rZUhLBV-k');    
+    console.log(stru);
+    let book_lists = yield book_list.getListByOpenId(stru.open_id);    
     // console.log(book_list);
     let result = {};
     if ( !book_lists || (0 == book_lists.length) ) {
@@ -85,23 +87,27 @@ var showMyBookList = function * ( stru, content, msgtype ) {
     // @TODO: 书单特别多的情况，之后再处理。
     else {
         let items = [];
-        let tmp_book_list = [];
-        let pos = 1;
-        for ( let b of book_lists ) {
-            let item = {
-                'Title'       : b.title,
-                'PicUrl'      : 'http://ww4.sinaimg.cn/mw1024/6a0b5ad3jw1f0t8dx2liwj2069069jr7.jpg',
-                'Url'         : 'http://test.tingxiaozhu.cn/booklist/' + b.id,
+        // let tmp_book_list = [];
+        // let pos = 1;
+        for ( let list of book_lists ) {
+            let book_arr = JSON.parse(list.content);
+            let book_item = yield book.getBook(book_arr[0].book_id);
+            if (book_item && book_item.picture) {
+                let item = {
+                    'Title'       : list.title,
+                    'PicUrl'      : book_item.picture,
+                    'Url'         : 'http://test.tingxiaozhu.cn/booklist/' + list.id,
+                }
+                items.push(item);
             }
-            items.push(item);
-            tmp_book_list.push(b.id);
-            pos++;
+            // tmp_book_list.push(list.id);
+            // pos++;
         }
 
         result = {
             'echo' : {
                 'MsgType'      : 'news',
-                'ArticleCount' : book_lists.length,
+                'ArticleCount' : items.length,
                 'Articles'     : {
                     'item' : items
                 }
